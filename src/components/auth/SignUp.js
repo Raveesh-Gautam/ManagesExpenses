@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./SignUp.module.css";
 
-const SignUp = () => {
+const SignUp = ({onToggle}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -111,7 +111,7 @@ const SignUp = () => {
       <button className={styles.signup}>SignUp</button>
     </form>
 
-    <button className={styles.an_account}>Have an Account?</button>
+    <button className={styles.an_account}>Have an Account?<span onClick={onToggle}>Login</span></button>
   </div>
 </div>
 
