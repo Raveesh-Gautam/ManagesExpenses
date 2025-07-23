@@ -1,23 +1,18 @@
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Login from "./components/auth/Login";
-import SignUp from "./components/auth/SignUp";
-import Home from "./components/Home";
-import { useState } from "react";
-
+import React, { useState } from 'react';
+import AuthPage from './components/auth/AuthPage';
+import Home from './components/Home';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoginSuccess,setIsLoginSuccess]=useState(false);
+  const handleSuccess=()=>{
+    setIsLoginSuccess(true);
+  }
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
-        />
-        <Route path="/login" element={<Login onSuccess={() => setIsLoggedIn(true)} />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
-    </Router>
-  );
-};
-export default App;
+    <React.Fragment>
+{!isLoginSuccess?<AuthPage onLogin={handleSuccess} />:<Home />}
+    
+    </React.Fragment>
+  )
+}
+
+export default App

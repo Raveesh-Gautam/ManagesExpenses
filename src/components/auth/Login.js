@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 
-const Login = ({onToggle,onSuccess}) => {
-    const navigate=useNavigate();
+const Login = ({ onToggle, onSuccess }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,7 +18,7 @@ const Login = ({onToggle,onSuccess}) => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(formData.email) ) {
+    if (!emailRegex.test(formData.email)) {
       newErrors.email = "Invalid email";
     }
 
@@ -60,8 +58,7 @@ const Login = ({onToggle,onSuccess}) => {
         })
         .then((res) => {
           console.log("Login success:", res);
-          onSuccess();
-           navigate("/");
+          onSuccess(true);
           alert("Logged in successfully!");
         })
         .catch((err) => {
@@ -106,7 +103,9 @@ const Login = ({onToggle,onSuccess}) => {
 
           <button className={styles.signup}>Login</button>
         </form>
-        <button className={styles.an_account}>Don't have an account? <span onClick={onToggle}> SignUp </span></button>
+        <button className={styles.an_account}>
+          Don't have an account? <span onClick={onToggle}> SignUp </span>
+        </button>
       </div>
     </div>
   );
