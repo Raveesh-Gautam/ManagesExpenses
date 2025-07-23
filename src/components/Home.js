@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../store/AuthProvider";
 import styles from "./Home.module.css";
 
@@ -10,13 +10,41 @@ const Home = () => {
     url: "",
   });
 
+  useEffect(() => {
+    if (!token) return;
+
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyAbrBOkpyGDNOKwjYY1pUvkIFvldV5811I",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idToken: token }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const user = data.users?.[0];
+        if (user) {
+          setContact({
+            name: user.displayName || "",
+            url: user.photoUrl || "",
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching user data:", err);
+      });
+  }, [token]);
+
   const handleChange = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
 
   const handleUpdate = () => {
     if (contact.name.trim().length <= 0 || contact.url.trim().length < 5) {
-      alert("Please enter a valid name and photo URL");
+      alert("Please enter valid name and photo URL");
       return;
     }
 
@@ -42,10 +70,8 @@ const Home = () => {
         });
       })
       .then((data) => {
-        console.log("Profile updated:", data);
         alert("Profile updated successfully!");
         setIsComplete(false);
-        setContact({ name: "", url: "" });
       })
       .catch((err) => {
         console.error("Error:", err.message);
