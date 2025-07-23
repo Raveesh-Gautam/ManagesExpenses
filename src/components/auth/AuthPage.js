@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Login from "./Login";
 import SignUp from "./SignUp";
-
-const AuthPage = ({onLogin}) => {
+const AuthPage = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(false);
   const toggleAuthMode = () => {
     setIsLogin((prev) => !prev);

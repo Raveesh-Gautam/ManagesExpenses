@@ -2,6 +2,7 @@ import { useState } from "react";
 import AuthPage from "./components/auth/AuthPage";
 import Home from "./components/Home";
 import { AuthProvider } from "./store/AuthProvider";
+import Header from "./components/Header";
 
 const App = () => {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
@@ -10,7 +11,13 @@ const App = () => {
   };
   return (
     <AuthProvider>
-      {!isLoginSuccess ? <AuthPage onLogin={handleSuccess} /> : <Home />}
+      {!isLoginSuccess ? (
+        <AuthPage onLogin={handleSuccess} />
+      ) : (
+        <div>
+          <Header /> <Home />
+        </div>
+      )}
     </AuthProvider>
   );
 };

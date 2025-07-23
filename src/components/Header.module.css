@@ -1,0 +1,31 @@
+/* Header.module.css */
+.header {
+  background-color: #1e293b; /* dark blue */
+  color: #f1f5f9; /* light gray */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header div {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.header button {
+  padding: 0.5rem 1rem;
+  background-color: #ef4444; 
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+  background-color: #dc2626;
+}
