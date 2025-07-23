@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../store/AuthProvider";
 import styles from "./Home.module.css";
 
@@ -41,7 +41,37 @@ const Home = () => {
   const handleChange = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
-
+  const handleVarifyEmail = () => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAbrBOkpyGDNOKwjYY1pUvkIFvldV5811I",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          requestType: "VERIFY_EMAIL",
+          idToken: token,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            throw new Error(data.error.message || "Varification failed");
+          });
+        }
+      })
+      .then((res) => {
+        console.log("Email sent to:", res.email);
+        alert("Email varification send");
+      })
+      .catch((err) => {
+        alert("Invalid Email", err.message);
+      });
+  };
   const handleUpdate = () => {
     if (contact.name.trim().length <= 0 || contact.url.trim().length < 5) {
       alert("Please enter valid name and photo URL");
@@ -129,6 +159,12 @@ const Home = () => {
                 onClick={handleUpdate}
               >
                 Update
+              </button>
+              <button
+                className={`${styles.button} ${styles.update}`}
+                onClick={handleVarifyEmail}
+              >
+                Verify Email
               </button>
             </div>
             <hr />
