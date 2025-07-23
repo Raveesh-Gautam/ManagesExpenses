@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../store/AuthProvider";
 import styles from "./Home.module.css";
 
 const Home = () => {
+  const { token } = useContext(AuthContext);
   const [isComplete, setIsComplete] = useState(false);
   const [contact, setContact] = useState({
     name: "",
-    url: ""
+    url: "",
   });
 
   const handleChange = (e) => {
@@ -13,18 +15,52 @@ const Home = () => {
   };
 
   const handleUpdate = () => {
-    console.log("Contact Info:", contact);
-  
+    if (contact.name.trim().length <= 0 || contact.url.trim().length < 5) {
+      alert("Please enter a valid name and photo URL");
+      return;
+    }
+
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyAbrBOkpyGDNOKwjYY1pUvkIFvldV5811I",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idToken: token,
+          displayName: contact.name,
+          photoUrl: contact.url,
+          returnSecureToken: true,
+        }),
+      }
+    )
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((data) => {
+          throw new Error(data.error.message || "Update failed");
+        });
+      })
+      .then((data) => {
+        console.log("Profile updated:", data);
+        alert("Profile updated successfully!");
+        setIsComplete(false);
+        setContact({ name: "", url: "" });
+      })
+      .catch((err) => {
+        console.error("Error:", err.message);
+        alert(err.message);
+      });
   };
 
   return (
     <React.Fragment>
       <div className={styles.nav}>
-        <div>Welcome to the expense Tracker app</div>
+        <div>Welcome to the Expense Tracker App</div>
         <div>
-          Your Profile is inComplete{" "}
+          Your profile is incomplete{" "}
           <span className={styles.span} onClick={() => setIsComplete(true)}>
-            please Complete
+            Please complete
           </span>
         </div>
       </div>

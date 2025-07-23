@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./SignUp.module.css";
 
-const SignUp = ({onToggle}) => {
+const SignUp = ({ onToggle }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -63,6 +63,9 @@ const SignUp = ({onToggle}) => {
         })
         .then((res) => {
           console.log("data api :", res);
+          localStorage.setItem("token", res.idToken);
+          localStorage.setItem("email", res.email);
+
           alert("data saved successfully!");
         })
         .catch((err) => {
@@ -78,43 +81,50 @@ const SignUp = ({onToggle}) => {
   };
 
   return (
-<div className={styles.auth}>
-  <div className={styles.formContainer}>
-    <form onSubmit={handleSubmit}>
-      <h1 className={styles.sign_heading}>SignUp</h1>
+    <div className={styles.auth}>
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit}>
+          <h1 className={styles.sign_heading}>SignUp</h1>
 
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        className={`${styles.input} ${errors.email ? styles.errorInput : ""}`}
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className={`${styles.input} ${errors.password ? styles.errorInput : ""}`}
-      />
-      <input
-        name="c_password"
-        type="password"
-        placeholder="Confirm Password"
-        value={formData.c_password}
-        onChange={handleChange}
-        className={`${styles.input} ${errors.c_password ? styles.errorInput : ""}`}
-      />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className={`${styles.input} ${
+              errors.email ? styles.errorInput : ""
+            }`}
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className={`${styles.input} ${
+              errors.password ? styles.errorInput : ""
+            }`}
+          />
+          <input
+            name="c_password"
+            type="password"
+            placeholder="Confirm Password"
+            value={formData.c_password}
+            onChange={handleChange}
+            className={`${styles.input} ${
+              errors.c_password ? styles.errorInput : ""
+            }`}
+          />
 
-      <button className={styles.signup}>SignUp</button>
-    </form>
+          <button className={styles.signup}>SignUp</button>
+        </form>
 
-    <button className={styles.an_account}>Have an Account?<span onClick={onToggle}>Login</span></button>
-  </div>
-</div>
-
+        <button className={styles.an_account}>
+          Have an Account?<span onClick={onToggle}>Login</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -59,6 +59,8 @@ const Login = ({ onToggle, onSuccess }) => {
         .then((res) => {
           console.log("Login success:", res);
           onSuccess(true);
+          localStorage.setItem("token", res.idToken);
+          localStorage.setItem("email", res.email);
           alert("Logged in successfully!");
         })
         .catch((err) => {
