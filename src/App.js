@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import AuthPage from './components/auth/AuthPage';
+import { useState } from 'react';
 import Home from './components/Home';
 
 const App = () => {
@@ -8,10 +7,10 @@ const App = () => {
     setIsLoginSuccess(true);
   }
   return (
-    <React.Fragment>
-{!isLoginSuccess?<AuthPage onLogin={handleSuccess} />:<Home />}
-    
-    </React.Fragment>
+//     <React.Fragment>
+// {!isLoginSuccess?<AuthPage onLogin={handleSuccess} />:<Home />}
+//     </React.Fragment>
+    <Home />
   )
 }
 
