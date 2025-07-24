@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Header from "./components/Header";
 import ForgotPassword from "./components/auth/Forgot"; 
 import { AuthProvider } from "./store/AuthProvider";
+import ExpenseForm from "./components/ExpenseForm";
 
 const App = () => {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
@@ -26,6 +27,7 @@ const App = () => {
                 <>
                   <Header />
                   <Home />
+                  <ExpenseForm />
                 </>
               )
             }

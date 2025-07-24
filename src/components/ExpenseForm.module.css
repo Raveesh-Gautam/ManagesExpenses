@@ -1,0 +1,77 @@
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fefefe;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 26px;
+  border-bottom: 2px solid #4caf50;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input,
+select {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #4caf50;
+  outline: none;
+  background-color: #f9fdf9;
+}
+
+button {
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #43a047;
+}
+
+.expenseList {
+  margin-top: 30px;
+}
+
+.expenseList h3 {
+  color: #222;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.expenseItem {
+  background-color: #f1f8f4;
+  padding: 10px 15px;
+  border-left: 4px solid #4caf50;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  color: #333;
+  font-size: 15px;
+}
