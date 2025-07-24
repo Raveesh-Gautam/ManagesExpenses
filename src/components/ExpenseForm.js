@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ExpenseForm.module.css";
 
 const ExpenseForm = () => {
@@ -9,13 +9,70 @@ const ExpenseForm = () => {
     category: "Food",
   });
 
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const res = await fetch(
+          'https://expensetracker-47692-default-rtdb.firebaseio.com/"expenses".json'
+        );
+        const data = await res.json();
+
+        if (res.ok) {
+          const loadedExpenses = [];
+
+          for (let key in data) {
+            loadedExpenses.push({
+              id: key,
+              ...data[key],
+            });
+          }
+          console.log(data);
+
+          setExpenses(loadedExpenses);
+        } else {
+          alert(data.error?.message || "Something went wrong.");
+        }
+      } catch (err) {
+        alert("Something went wrong while fetching expenses.");
+      }
+    };
+
+    fetchExpenses();
+  }, []);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setExpenses((prev) => [...prev, form]);
+    try {
+      const res = await fetch(
+        'https://expensetracker-47692-default-rtdb.firebaseio.com/"expenses".json',
+        {
+          method: "POST",
+          body: JSON.stringify({
+            amount: form.amount,
+            description: form.description,
+            category: form.category,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const postedData = await res.json();
+      if (res.ok) {
+        alert("Expenses Added.");
+      } else {
+        alert(postedData.error.message || "Something went wrong.");
+      }
+    } catch (err) {
+      alert("Expenses not added check your data or api ");
+    }
+
     setForm({ amount: "", description: "", category: "Food" });
   };
 
@@ -51,7 +108,11 @@ const ExpenseForm = () => {
         <h3>Your Expenses:</h3>
         {expenses.map((exp, idx) => (
           <div key={idx} className={styles.expenseItem}>
-            ${exp.amount} - {exp.description} [{exp.category}]
+            <div className={styles.cat_des}>
+              <div className={styles.category}>{exp.category}</div>
+              <p className={styles.des}>{exp.description}</p>
+            </div>
+            <div className={styles.amount}>${exp.amount}</div>
           </div>
         ))}
       </div>

@@ -67,11 +67,40 @@ button:hover {
 }
 
 .expenseItem {
-  background-color: #f1f8f4;
-  padding: 10px 15px;
-  border-left: 4px solid #4caf50;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  color: #333;
-  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid #eee;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.cat_des {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.category {
+  font-size: 14px;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 4px;
+}
+
+.des {
+  font-size: 17px;
+  color: #555;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.amount {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2ecc71;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
