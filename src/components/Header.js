@@ -2,11 +2,14 @@ import { useContext } from "react";
 import AuthContext from "../store/AuthProvider";
 
 import styles from "./Header.module.css";
+// import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    // const navigate=useNavigate();
   const { logout, email } = useContext(AuthContext);
   const handleLogout = () => {
     logout();
+    // navigate('/login')
     window.location.href = "/login.html";
   };
   return (

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./SignUp.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onToggle, onSuccess }) => {
+ const navigate=useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,11 +11,15 @@ const Login = ({ onToggle, onSuccess }) => {
 
   const [errors, setErrors] = useState({});
 
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  const handleForgotPassword=(e)=>{
+navigate('/forgot-password')
+  }
   const validate = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -102,7 +108,7 @@ const Login = ({ onToggle, onSuccess }) => {
               errors.password ? styles.errorInput : ""
             }`}
           />
-
+          <button  onClick={handleForgotPassword} className={styles.forgot}>Forgot Password?</button>
           <button className={styles.signup}>Login</button>
         </form>
         <button className={styles.an_account}>
