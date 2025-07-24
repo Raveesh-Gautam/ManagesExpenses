@@ -67,15 +67,14 @@ button:hover {
 }
 
 .expenseItem {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 1px solid #eee;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 8px;
+  background-color: #f1f8f4;
+  padding: 10px 15px;
+  border-left: 4px solid #4caf50;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  color: #333;
+  font-size: 15px;
 }
-
 .cat_des {
   display: flex;
   flex-direction: column;
@@ -102,5 +101,51 @@ button:hover {
   color: #2ecc71;
   margin-left: auto;
   display: flex;
+
   align-items: center;
+}
+.btn_edit_del {
+  display: flex;
+  gap: 25px;
+}
+.expenses_handle {
+  display: flex;
+  justify-content: space-between;
+}
+.btn_edit_del {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.edit_btn {
+  width: 90px;
+  padding: 6px 14px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit_btn:hover {
+  background-color: #2980b9;
+}
+
+.del_btn {
+  width: 90px;
+  padding: 6px 14px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.del_btn:hover {
+  background-color: #c0392b;
 }

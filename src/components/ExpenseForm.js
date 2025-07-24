@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./ExpenseForm.module.css";
 
 const ExpenseForm = () => {
+  const [editingId, setEditingId] = useState(null);
+
   const [expenses, setExpenses] = useState([]);
   const [form, setForm] = useState({
     amount: "",
@@ -45,35 +47,102 @@ const ExpenseForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setExpenses((prev) => [...prev, form]);
+  e.preventDefault();
+
+  if (editingId) {
     try {
       const res = await fetch(
-        'https://expensetracker-47692-default-rtdb.firebaseio.com/"expenses".json',
+        `https://expensetracker-47692-default-rtdb.firebaseio.com/expenses/${editingId}.json`,
         {
-          method: "POST",
-          body: JSON.stringify({
-            amount: form.amount,
-            description: form.description,
-            category: form.category,
-          }),
+          method: "PUT",
+          body: JSON.stringify(form),
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
 
-      const postedData = await res.json();
       if (res.ok) {
-        alert("Expenses Added.");
+        alert("Expense updated");
+
+        setExpenses((prev) =>
+          prev.map((item) =>
+            item.id === editingId ? { ...item, ...form } : item
+          )
+        );
+
+        setEditingId(null);
+        setForm({ amount: "", description: "", category: "Food" });
       } else {
-        alert(postedData.error.message || "Something went wrong.");
+        const data = await res.json();
+        alert(data?.message || "Update failed");
       }
     } catch (err) {
-      alert("Expenses not added check your data or api ");
+      alert("Error while updating");
     }
 
-    setForm({ amount: "", description: "", category: "Food" });
+    return; 
+  }
+
+  try {
+    const res = await fetch(
+      'https://expensetracker-47692-default-rtdb.firebaseio.com/expenses.json', 
+      {
+        method: "POST",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const postedData = await res.json();
+    if (res.ok) {
+      alert("Expense Added.");
+      setExpenses((prev) => [...prev, { id: postedData.name, ...form }]); 
+    } else {
+      alert(postedData?.error?.message || "Something went wrong.");
+    }
+  } catch (err) {
+    alert("Expenses not added. Check your data or API.");
+  }
+
+  setForm({ amount: "", description: "", category: "Food" });
+};
+
+  const handleEdit = (id) => {
+  const expenseToEdit = expenses.find((exp) => exp.id === id);
+  if (expenseToEdit) {
+    setForm({
+      amount: expenseToEdit.amount,
+      description: expenseToEdit.description,
+      category: expenseToEdit.category,
+    });
+    setEditingId(id); 
+  }
+
+  }
+   
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(
+        `https://expensetracker-47692-default-rtdb.firebaseio.com/expenses/${id}.json`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (res.ok) {
+        alert("Expense deleted");
+        setExpenses((prev) => prev.filter((exp) => exp.id !== id));
+      } else {
+        const data = await res.json();
+        alert("API failed: " + (data?.message || "Unknown error"));
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Something went wrong in delete API");
+    }
   };
 
   return (
@@ -108,11 +177,28 @@ const ExpenseForm = () => {
         <h3>Your Expenses:</h3>
         {expenses.map((exp, idx) => (
           <div key={idx} className={styles.expenseItem}>
-            <div className={styles.cat_des}>
-              <div className={styles.category}>{exp.category}</div>
-              <p className={styles.des}>{exp.description}</p>
+            <div className={styles.expenses_handle}>
+              <div className={styles.cat_des}>
+                <div className={styles.category}>{exp.category}</div>
+                <p className={styles.des}>{exp.description}</p>
+                <div className={styles.amount}>${exp.amount}</div>
+              </div>
+
+              <div className={styles.btn_edit_del}>
+                <button
+                  onClick={() => handleEdit(exp.id)}
+                  className={styles.edit_btn}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(exp.id)}
+                  className={styles.del_btn}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-            <div className={styles.amount}>${exp.amount}</div>
           </div>
         ))}
       </div>

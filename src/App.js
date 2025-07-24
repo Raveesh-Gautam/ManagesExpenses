@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AuthPage from "./components/auth/AuthPage";
-import Home from "./components/Home";
-import Header from "./components/Header";
-import ForgotPassword from "./components/auth/Forgot"; 
-import { AuthProvider } from "./store/AuthProvider";
+import ForgotPassword from "./components/auth/Forgot";
 import ExpenseForm from "./components/ExpenseForm";
+import Header from "./components/Header";
+import Home from "./components/Home";
+import { AuthProvider } from "./store/AuthProvider";
 
 const App = () => {
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
