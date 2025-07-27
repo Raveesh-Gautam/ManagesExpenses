@@ -1,28 +1,35 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AuthPage from "./components/auth/AuthPage";
 import ForgotPassword from "./components/auth/Forgot";
 import ExpenseForm from "./components/ExpenseForm";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import { AuthProvider } from "./store/AuthProvider";
 
 const App = () => {
-  const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
-  const handleSuccess = () => {
-    setIsLoginSuccess(true);
-  };
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
-    <AuthProvider>
+    <>
       <Router>
         <Routes>
           <Route
             path="/"
             element={
-              !isLoginSuccess ? (
-                <AuthPage onLogin={handleSuccess} />
+              !isLoggedIn ? (
+                <>
+                  <AuthPage />
+                </>
               ) : (
                 <>
                   <Header />
@@ -35,7 +42,7 @@ const App = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </Router>
-    </AuthProvider>
+    </>
   );
 };
 

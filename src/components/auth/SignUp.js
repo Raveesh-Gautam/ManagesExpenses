@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCredential } from "../../App/features/Auth/AuthSlice";
 import styles from "./SignUp.module.css";
 
 const SignUp = ({ onToggle }) => {
@@ -7,7 +9,7 @@ const SignUp = ({ onToggle }) => {
     password: "",
     c_password: "",
   });
-
+ const dispatch=useDispatch();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -63,6 +65,10 @@ const SignUp = ({ onToggle }) => {
         })
         .then((res) => {
           console.log("data api :", res);
+          dispatch(setCredential({
+    token: res.idToken,
+    email: res.email
+  }));
           localStorage.setItem("token", res.idToken);
           localStorage.setItem("email", res.email);
 

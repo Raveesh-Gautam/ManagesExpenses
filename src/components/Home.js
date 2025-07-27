@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../store/AuthProvider";
+import React, {  useEffect, useState } from "react";
+// import AuthContext from "../store/AuthProvider";
 import styles from "./Home.module.css";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { token } = useContext(AuthContext);
+  // const { token } = useContext(AuthContext);
+  const token=useSelector((state)=>state.auth.token);
   const [isComplete, setIsComplete] = useState(false);
   const [contact, setContact] = useState({
     name: "",
@@ -133,9 +135,9 @@ const Home = () => {
                 Cancel
               </button>
             </div>
-
+    <div className={styles.han_label}>
             <label>
-              Full Name:
+              Full Name
               <input
                 type="text"
                 name="name"
@@ -144,7 +146,7 @@ const Home = () => {
               />
             </label>
             <label>
-              Profile Photo URL:
+              Profile Photo URL
               <input
                 type="text"
                 name="url"
@@ -152,7 +154,7 @@ const Home = () => {
                 onChange={handleChange}
               />
             </label>
-
+</div>
             <div className={styles.buttonGroup}>
               <button
                 className={`${styles.button} ${styles.update}`}

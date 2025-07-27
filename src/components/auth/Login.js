@@ -1,9 +1,12 @@
 import { useState } from "react";
-import styles from "./SignUp.module.css";
 import { useNavigate } from "react-router-dom";
+import styles from "./SignUp.module.css";
+import { setCredential } from "../../App/features/Auth/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const Login = ({ onToggle, onSuccess }) => {
- const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -11,15 +14,14 @@ const Login = ({ onToggle, onSuccess }) => {
 
   const [errors, setErrors] = useState({});
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleForgotPassword=(e)=>{
-navigate('/forgot-password')
-  }
+  const handleForgotPassword = (e) => {
+    navigate("/forgot-password");
+  };
   const validate = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,9 +66,13 @@ navigate('/forgot-password')
         })
         .then((res) => {
           console.log("Login success:", res);
-          onSuccess(true);
-          localStorage.setItem("token", res.idToken);
-          localStorage.setItem("email", res.email);
+
+          dispatch(
+            setCredential({
+              token: res.idToken,
+              email: res.email,
+            })
+          );
           alert("Logged in successfully!");
         })
         .catch((err) => {
@@ -108,7 +114,9 @@ navigate('/forgot-password')
               errors.password ? styles.errorInput : ""
             }`}
           />
-          <button  onClick={handleForgotPassword} className={styles.forgot}>Forgot Password?</button>
+          <button onClick={handleForgotPassword} className={styles.forgot}>
+            Forgot Password?
+          </button>
           <button className={styles.signup}>Login</button>
         </form>
         <button className={styles.an_account}>

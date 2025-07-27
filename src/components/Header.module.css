@@ -18,6 +18,8 @@
 .header button {
   padding: 0.5rem 1rem;
   background-color: #ef4444; 
+  padding:10px;
+  /* background-color: #4dabf7; */
   color: white;
   border: none;
   border-radius: 6px;
@@ -28,4 +30,57 @@
 
 .header button:hover {
   background-color: #dc2626;
+    background-color: #4dabf7;
 }
+.premium {
+  position: relative;
+  padding: 10px 20px;
+  background-color: white;
+  color: #111;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.premium::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: conic-gradient(
+    from 0deg,
+    #ff6b6b,
+    #f0e130,
+    #6bcf6b,
+    #4dabf7,
+    #a78bfa,
+    #ff6b6b
+  );
+  z-index: -1;
+  animation: spinBorder 2s linear infinite;
+  border-radius: 10px;
+  padding: 2px;
+  mask: 
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+}
+
+@keyframes spinBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
