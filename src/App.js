@@ -6,6 +6,7 @@ import ForgotPassword from "./components/auth/Forgot";
 import ExpenseForm from "./components/ExpenseForm";
 import Header from "./components/Header";
 import Home from "./components/Home";
+import Cart from "./components/Cart/Cart";
 
 const App = () => {
   const darkMode = useSelector((state) => state.theme.darkMode);
@@ -35,6 +36,7 @@ const App = () => {
                   <Header />
                   <Home />
                   <ExpenseForm />
+                  <Cart/>
                 </>
               )
             }

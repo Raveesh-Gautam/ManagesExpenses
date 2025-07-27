@@ -1,0 +1,81 @@
+.spCart{
+    font-weight: 600;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    margin-left: 10px;
+   flex-direction: column; 
+}
+.p{
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 10px;
+
+}
+.img{
+    float: left;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: 20px;
+    width: 200px;
+}
+.top{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+   font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.top_des_price{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+ 
+}
+.bottom{
+    display: flex;
+    justify-content: space-between;
+}
+.del_btn{
+    width: 50px;
+    margin-left: 12px;
+}
+.del_btn:hover{
+    background-color: red;
+}
+
+.input{
+font-style: italic;
+width: 70px;
+}
+.quantity{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+.total_payable{
+    font-size: 25px;
+    font-weight: 800;
+    color: green;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin:20px;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+
+}
+.dollar{
+    color: brown;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    margin-left: 0;
+}

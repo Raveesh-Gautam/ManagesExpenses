@@ -7,25 +7,39 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const email = useSelector((state) => state.auth.email);
- const totalExpense=useSelector((state)=>state.expenses.totalExpense);
+  const totalCartItem=useSelector((state)=>state.cart.cartData)
+  let totalSubTitle=0
+  for(let i=0;i<totalCartItem.length;i++){
+   totalSubTitle+= totalCartItem[i].quantity;
+  }
+  const totalExpense = useSelector((state) => state.expenses.totalExpense);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
+  const handleCart=()=>{
+
+  }
   return (
     <div>
-
-    { totalExpense>=10000? <header className={styles.header}>
-      <div>Welcome, {email}</div>
-      <ToggleButton />
-      <button className={styles.premium}>Premium</button>
-      <button onClick={handleLogout}>Logout</button>
-    </header>: <header className={styles.header}>
-      <div>Welcome, {email}</div>
-       <ToggleButton />
-      <button onClick={handleLogout}>Logout</button>
-    </header>}
-   
+      {totalExpense >= 10000 ? (
+        <header className={styles.header}>
+          <div>Welcome, {email}</div>
+          <ToggleButton />
+          <button className={styles.premium}>Premium</button>
+          <div className={styles.cart} onClick={handleCart}>
+            <img src="/cartIcon.jpg" alt="" /> <span>{totalSubTitle}</span>
+          </div>
+          <button onClick={handleLogout}>Logout</button>
+        </header>
+      ) : (
+        <header className={styles.header}>
+          <div>Welcome, {email}</div>
+          <ToggleButton />
+          <div>Cart</div>
+          <button onClick={handleLogout}>Logout</button>
+        </header>
+      )}
     </div>
   );
 };

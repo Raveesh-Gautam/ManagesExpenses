@@ -17,9 +17,8 @@
 
 .header button {
   padding: 0.5rem 1rem;
-  background-color: #ef4444; 
-  padding:10px;
-  /* background-color: #4dabf7; */
+  background-color: #ef4444;
+  padding: 10px;
   color: white;
   border: none;
   border-radius: 6px;
@@ -30,8 +29,45 @@
 
 .header button:hover {
   background-color: #dc2626;
-    background-color: #4dabf7;
+  background-color: #4dabf7;
 }
+
+.cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.cart:hover {
+  background-color: #ddd;
+  transform: scale(1.05);
+}
+
+.cart img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.cart span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
 .premium {
   position: relative;
   padding: 10px 20px;
@@ -44,9 +80,11 @@
   z-index: 1;
   border-radius: 8px;
 }
-
+img {
+  background-color: #dc2626;
+}
 .premium::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -2px;
   left: -2px;
@@ -65,12 +103,8 @@
   animation: spinBorder 2s linear infinite;
   border-radius: 10px;
   padding: 2px;
-  mask: 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask-composite: destination-out;
 }
@@ -83,4 +117,3 @@
     transform: rotate(360deg);
   }
 }
-

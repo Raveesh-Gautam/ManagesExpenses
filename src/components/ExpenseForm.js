@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
-import styles from "./ExpenseForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../App/features/Cart/CartSlice";
 import {
-  getTotalExpense,
-  addExpense,
-  deleteExpense,
-  updateExpense,
+    addExpense,
+    deleteExpense,
+    getTotalExpense,
+    updateExpense,
 } from "../App/features/expenses/ExpenseSlice";
+import styles from "./ExpenseForm.module.css";
 
 const ExpenseForm = () => {
   const totalExpense = useSelector((state) => state.expenses.totalExpense);
   const dispatch = useDispatch();
   const [editingId, setEditingId] = useState(null);
   const [expenses, setExpenses] = useState([]);
+  const cartData=useSelector((state)=>state.cart.cartData);
+
   const [form, setForm] = useState({
     amount: "",
     description: "",
     category: "Food",
   });
+const handleAddToCart=(id,amount,category)=>{
+dispatch(addToCart({id,amount,category,quantity:1}));
 
+console.log(cartData);
+}
   // Fetch expenses from Firebase
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -34,7 +41,7 @@ const ExpenseForm = () => {
         let totalVal = 0;
 
         for (let key in data) {
-          const amount = +data[key].amount; // ensures amount is number
+          const amount = +data[key].amount; 
           totalVal += amount;
           loadedExpenses.push({ id: key, ...data[key], amount });
         }
@@ -203,6 +210,12 @@ const ExpenseForm = () => {
               </div>
 
               <div className={styles.btn_edit_del}>
+                  <button
+                  onClick={() => handleAddToCart(exp.id,exp.amount,exp.category)}
+                  className={styles.del_btn}
+                >
+                  AddToCart
+                </button>
                 <button
                   onClick={() => handleEdit(exp.id)}
                   className={styles.edit_btn}
