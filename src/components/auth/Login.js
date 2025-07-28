@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./SignUp.module.css";
 import { setCredential } from "../../App/features/Auth/AuthSlice";
 import { useDispatch } from "react-redux";
+import {toast}  from 'react-toastify'
 
 const Login = ({ onToggle, onSuccess }) => {
   const dispatch = useDispatch();
@@ -65,20 +66,22 @@ const Login = ({ onToggle, onSuccess }) => {
           }
         })
         .then((res) => {
-          console.log("Login success:", res);
+  console.log("Login success:", res);
 
-          dispatch(
-            setCredential({
-              token: res.idToken,
-              email: res.email,
-            })
-          );
-          alert("Logged in successfully!");
-        })
-        .catch((err) => {
-          console.log(err.message);
-          alert(err.message);
-        });
+  dispatch(
+    setCredential({
+      token: res.idToken,
+      email: res.email,
+    })
+  );
+
+  toast.success("Logged in successfully ✅"); 
+
+  navigate("/"); 
+})
+.catch((err) => {
+  toast.error(err.message); 
+});
 
       setFormData({
         email: "",

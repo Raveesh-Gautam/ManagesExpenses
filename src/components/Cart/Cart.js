@@ -23,7 +23,11 @@ const Cart = () => {
           </div>
           <div className={styles.top}>
             <div className={styles.top_des_price}>
-              <div>{ele.category}</div>
+              <div>LG 20 L Solo Microwave Oven (MS2043DB, Black)
+₹7,500.00
+In stock
+Sold by ELECTRO KART
+Gift options not available.Gift options not available. Learn more{ele.category}</div>
               <div>${ele.amount}</div>
             </div>
             <div className={styles.bottom}>
@@ -44,6 +48,7 @@ const Cart = () => {
         
         
       ))}
+      <hr />
       <p className={styles.total_payable}>Totol payable Amount <span className={styles.dollar}>${totalCartAmount}</span></p>
     </div>
   );

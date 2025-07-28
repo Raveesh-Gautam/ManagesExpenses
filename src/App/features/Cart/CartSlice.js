@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { sendCartData,fetchCartData } from "../../thunk/CartThunk";
 const initialState = {
   cartData: [],
   totalCartAmount: 0,
+  status: "idle", 
+  error: null,
 };
 
 export const CartSlice = createSlice({
@@ -18,7 +20,7 @@ export const CartSlice = createSlice({
         existingItem.amount += amount;
       } else {
         state.cartData.push({
-          id, 
+          id,
           amount,
           category,
           quantity,
@@ -49,6 +51,35 @@ export const CartSlice = createSlice({
         );
       }
     },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      // ✅ Send Cart Data
+      .addCase(sendCartData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(sendCartData.fulfilled, (state) => {
+        state.status = "success";
+      })
+      .addCase(sendCartData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+
+      // ✅ Fetch Cart Data
+      .addCase(fetchCartData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCartData.fulfilled, (state, action) => {
+        state.status = "success";
+        state.cartData = action.payload.cartData || [];
+        state.totalCartAmount = action.payload.totalCartAmount || 0;
+      })
+      .addCase(fetchCartData.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
   },
 });
 

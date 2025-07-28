@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCredential } from "../../App/features/Auth/AuthSlice";
 import styles from "./SignUp.module.css";
-
+import { toast } from "react-toastify";
 const SignUp = ({ onToggle }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -71,12 +71,14 @@ const SignUp = ({ onToggle }) => {
   }));
           localStorage.setItem("token", res.idToken);
           localStorage.setItem("email", res.email);
-
-          alert("data saved successfully!");
+           toast.success("Signup  successfully ✅"); 
+         
+          // alert("data saved successfully!");
         })
         .catch((err) => {
           console.log(err.message);
-          alert(err.message);
+          toast.error(err.message);
+          // alert(err.message);
         });
       setFormData({
         email: "",

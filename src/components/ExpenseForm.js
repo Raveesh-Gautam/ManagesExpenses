@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { addToCart } from "../App/features/Cart/CartSlice";
 import {
     addExpense,
@@ -7,6 +8,7 @@ import {
     getTotalExpense,
     updateExpense,
 } from "../App/features/expenses/ExpenseSlice";
+import { fetchCartData, sendCartData } from "../App/thunk/CartThunk";
 import styles from "./ExpenseForm.module.css";
 
 const ExpenseForm = () => {
@@ -14,18 +16,28 @@ const ExpenseForm = () => {
   const dispatch = useDispatch();
   const [editingId, setEditingId] = useState(null);
   const [expenses, setExpenses] = useState([]);
-  const cartData=useSelector((state)=>state.cart.cartData);
+  const cartData = useSelector((state) => state.cart.cartData);
 
   const [form, setForm] = useState({
     amount: "",
     description: "",
     category: "Food",
   });
-const handleAddToCart=(id,amount,category)=>{
-dispatch(addToCart({id,amount,category,quantity:1}));
+  useEffect(()=>{
+    dispatch(fetchCartData());
+  },[dispatch]);
+  const handleAddToCart = (id, amount, category) => {
+    const newCategory = `LG 20 L Solo Microwave Oven (MS2043DB, Black)
+₹7,500.00
+In stock
+Sold by ELECTRO KART
+Gift options not available.Gift options not available. Learn more ${category}`;
+    dispatch(addToCart({ id, amount, newCategory, quantity: 1 }));
+    toast.success("item added in cart");
+    dispatch(sendCartData(cartData));
 
-console.log(cartData);
-}
+    console.log(cartData);
+  };
   // Fetch expenses from Firebase
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -41,7 +53,7 @@ console.log(cartData);
         let totalVal = 0;
 
         for (let key in data) {
-          const amount = +data[key].amount; 
+          const amount = +data[key].amount;
           totalVal += amount;
           loadedExpenses.push({ id: key, ...data[key], amount });
         }
@@ -89,7 +101,8 @@ console.log(cartData);
       );
 
       if (res.ok) {
-        alert("Expense updated");
+        toast.success("Expense updated successFully!");
+        // alert("Expense updated");
 
         setExpenses((prev) =>
           prev.map((item) =>
@@ -107,7 +120,8 @@ console.log(cartData);
         setEditingId(null);
         setForm({ amount: "", description: "", category: "Food" });
       } else {
-        alert("Failed to update");
+        toast.error("Failed to update");
+        // alert("Failed to update");
       }
 
       return;
@@ -133,9 +147,10 @@ console.log(cartData);
     if (res.ok) {
       setExpenses((prev) => [...prev, { id: data.name, ...newExpense }]);
       dispatch(addExpense({ amount: numericAmount }));
+      toast.success("Expense added successfully");
       setForm({ amount: "", description: "", category: "Food" });
     } else {
-      alert("Failed to add expense");
+      toast.error("Failed to add expense");
     }
   };
 
@@ -162,7 +177,7 @@ console.log(cartData);
       setExpenses((prev) => prev.filter((e) => e.id !== id));
       dispatch(deleteExpense({ amount: Number(toDelete.amount) }));
     } else {
-      alert("Failed to delete");
+      toast.error("Failed to delete");
     }
   };
 
@@ -196,8 +211,6 @@ console.log(cartData);
         </button>
       </form>
 
-     
-
       <div className={styles.expenseList}>
         <h3>Your Expenses:</h3>
         {expenses.map((exp) => (
@@ -210,8 +223,10 @@ console.log(cartData);
               </div>
 
               <div className={styles.btn_edit_del}>
-                  <button
-                  onClick={() => handleAddToCart(exp.id,exp.amount,exp.category)}
+                <button
+                  onClick={() =>
+                    handleAddToCart(exp.id, exp.amount, exp.category)
+                  }
                   className={styles.del_btn}
                 >
                   AddToCart
@@ -232,7 +247,7 @@ console.log(cartData);
             </div>
           </div>
         ))}
-         <h3 className={styles.totalExpense}>Total Expense: ₹{totalExpense}</h3>
+        <h3 className={styles.totalExpense}>Total Expense: ₹{totalExpense}</h3>
       </div>
     </div>
   );
